@@ -1,0 +1,75 @@
+server:
+  port: 8080
+prefix:
+  api: /api/v1
+spring:
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://${DB_HOST}:${DB_PORT}/${DB_NAME}
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+  cache:
+    type: redis
+  jpa:
+    hibernate:
+      ddl-auto: none
+    open-in-view: false
+    # show-sql: true
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: ${GM_USERNAME}
+    password: ${GM_PASSWORD}
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+  servlet:
+    multipart:
+      max-file-size: 20MB
+      max-request-size: 20MB
+  data:
+    redis:
+      host: ${RD_HOST}
+      port: ${RD_PORT}
+  flyway:
+    enabled: true
+    locations: classpath:db/migration
+    baseline-on-migrate: true
+  logging:
+    file:
+      name: ./logging/application.log
+token:
+  secret-key: ${JWT_SECRET}
+  access-expiration: 604800000 # 7200000 # 1000 * 60 * 60 * 2 = 2 hours
+  refresh-expiration: 604800000 # 1000 * 60 * 60 * 24 * 7 = 7 days
+  verified-expiration: 900000 # 1000 * 60 * 15 = 15 minutes
+cors:
+  headers:
+    access-control-allow-origin: "*"
+    access-control-allow-methods: "*"
+    access-control-max-age: "3600"
+    access-control-allow-headers: "content-type, authorization, xsrf-token"
+    access-control-allow-credentials: "true"
+    access-control-expose-headers: "xsrf-token"
+cloud:
+  aws:
+    credentials:
+      access-key: ${AWS_ACCESS_KEY_ID}
+      secret-key: ${AWS_SECRET_ACCESS_KEY}
+    s3:
+      aws-region: ${AWS_REGION}
+      bucket-name: ${AWS_BUCKET_NAME}
+link:
+  front-end-domain: ${FRONT-END-DOMAIN}
+  forgot-password-verify: /forgot-password/verify?token=
+  confirm-email-verify: /signup/verify?token=
+  confirm-transfer: /wallet/confirm?code=
+rental:
+  expiration-after-confirm: 21600000 # 6 hour
+transaction:
+  expiration-time: 172800000 # 48 hour
+email:
+  admin: ${ADMIN_EMAIL}

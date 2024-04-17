@@ -1,0 +1,67 @@
+services:
+  pgadmin:
+    container_name: pgadmin
+    image: dpage/pgadmin4:8.2
+    restart: no
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=${PGADMIN_EMAIL}
+      - PGADMIN_DEFAULT_PASSWORD=${PGADMIN_PASSWORD}
+      - PGADMIN_LISTEN_PORT=5050
+    ports:
+      - ${PGADMIN_PORT}:5050
+  postgres:
+    container_name: postgres
+    image: postgres:16.1
+    restart: no
+    environment:
+      - POSTGRES_DB=${DB_NAME}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+      - POSTGRES_USER=${DB_USERNAME}
+    ports:
+      - ${DB_PORT}:5432
+  redis:
+    container_name: redis
+    image: redis:7.2.4
+    restart: no
+    ports:
+      - ${RD_PORT}:6379
+  api-service:
+    container_name: api-service
+    build:
+      context: car-rental-api
+      dockerfile: Dockerfile
+    restart: no
+    ports:
+      - ${API_PORT}:8080
+    environment:
+      - DB_HOST=${DB_HOST}
+      - DB_PORT=${DB_PORT}
+      - DB_NAME=${DB_NAME}
+      - DB_USERNAME=${DB_USERNAME}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - RD_HOST=${RD_HOST}
+      - RD_PORT=${RD_PORT}
+      - GM_USERNAME=${GM_USERNAME}
+      - GM_PASSWORD=${GM_PASSWORD}
+      - ADMIN_EMAIL=${ADMIN_EMAIL}
+      - JWT_SECRET=${JWT_SECRET}
+      - FRONT-END-DOMAIN=${FRONT-END-DOMAIN}
+      - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
+      - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
+      - AWS_REGION=${AWS_REGION}
+      - AWS_BUCKET_NAME=${AWS_BUCKET_NAME}
+    depends_on:
+      - postgres
+      - redis
+  portal-service:
+    container_name: portal-service
+    build:
+      context: car-rental-portal
+      dockerfile: Dockerfile
+    restart: no
+    ports:
+      - ${PORTAL_PORT}:3000
+    environment:
+      - JWT_SECRET=${JWT_SECRET}
+      - API_URL=${API_URL}
+      - BANK_QR_CODE=${BANK_QR_CODE}
