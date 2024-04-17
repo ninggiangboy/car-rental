@@ -1,14 +1,4 @@
 services:
-  pgadmin:
-    container_name: pgadmin
-    image: dpage/pgadmin4:8.2
-    restart: no
-    environment:
-      - PGADMIN_DEFAULT_EMAIL=${PGADMIN_EMAIL}
-      - PGADMIN_DEFAULT_PASSWORD=${PGADMIN_PASSWORD}
-      - PGADMIN_LISTEN_PORT=5050
-    ports:
-      - ${PGADMIN_PORT}:5050
   postgres:
     container_name: postgres
     image: postgres:16.1
@@ -28,7 +18,7 @@ services:
   api-service:
     container_name: api-service
     build:
-      context: car-rental-api
+      context: api
       dockerfile: Dockerfile
     restart: no
     ports:
@@ -56,7 +46,7 @@ services:
   portal-service:
     container_name: portal-service
     build:
-      context: car-rental-portal
+      context: portal
       dockerfile: Dockerfile
     restart: no
     ports:
