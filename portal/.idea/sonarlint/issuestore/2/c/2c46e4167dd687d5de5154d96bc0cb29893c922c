@@ -1,4 +1,0 @@
-
-¢typescript:S6481}"…The object passed as the value prop to the Context provider changes every render. To fix this consider wrapping it in a useMemo hook.(¾öá¼
-ªtypescript:S6819‰"‡Use <section aria-label=...>, or <section aria-labelledby=...> instead of the "region" role to ensure accessibility across all devices.(¯ƒúÁøÿÿÿÿ
-typescript:S6819¶"{Use <details>, <fieldset>, <optgroup>, or <address> instead of the "group" role to ensure accessibility across all devices.(¯ƒúÁøÿÿÿÿ
